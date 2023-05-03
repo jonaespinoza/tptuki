@@ -1,0 +1,12 @@
+/*
+ * consola.c
+ *
+ *  Created on: 11 abr. 2023
+ *      Author: utnso
+ */
+
+#include "consola.h"
+
+int main(int argc, char *argv){
+
+}

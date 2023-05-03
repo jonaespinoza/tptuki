@@ -1,0 +1,21 @@
+#ifndef FILESYSTEM_H
+#define FILESYSTEM_H
+#include <stdio.h>
+#include <commons/log.h>
+#include <commons/config.h>
+#include "shares/shared.h"
+
+typedef struct t_filesystem_config{
+    char* ip_memoria;
+    char* puerto_memoria;
+    char* puerto_escucha;
+    char* path_superbloque;
+    char* path_bitmap;
+    char* path_bloques;
+    char* path_FCB;
+    int32_t retardo_acceso_bloque;
+}t_filesystem_config;
+
+t_filesystem_config* inicializar_config(char*);
+
+#endif

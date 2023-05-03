@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section name="Workbench">
+	<list key="EGit.KnownHosts">
+		<item value="git.eclipse.org"/>
+		<item value="github.com"/>
+		<item value="bitbucket.org"/>
+	</list>
+	<list key="RepositorySelectionPage.UsedUris">
+		<item value="ssh://jonaespinoza@github.com/sisoputnfrba/tp-2023-1c-Tuki-Tuki.git"/>
+		<item value="ssh://github.com/sisoputnfrba/tp-2023-1c-Tuki-Tuki.git"/>
+		<item value="https://github.com/sisoputnfrba/tp-2023-1c-Tuki-Tuki.git"/>
+	</list>
+	<section name="GitImportWizard">
+	</section>
+</section>

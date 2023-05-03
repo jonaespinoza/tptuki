@@ -1,0 +1,9 @@
+#include "kernel.h"
+
+int main(){
+
+	config = config_create("cfg/config.cfg");
+
+	conexionMemoria()
+
+}

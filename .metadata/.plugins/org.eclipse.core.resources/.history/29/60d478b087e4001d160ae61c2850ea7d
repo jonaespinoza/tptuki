@@ -1,0 +1,185 @@
+#include "kernel.h"
+
+int procesosReady = 0;
+
+t_config *config;
+
+
+int main(){
+
+	logger = log_create("kernel.log", "Kernel-Log", 1, LOG_LEVEL_INFO);
+
+	config = config_create("cfg/config.cfg");
+
+	char puertoEscucha = config_get_string_value(config, "PUERTO_ESCUCHA");
+	char ipEscucha = "127.0.0.1";
+	int socketkernel, socketconsola;
+
+	struct sockaddr_in kernelsv, consolasock;
+
+	socketconsola = inicializar_servidor(puertoEscucha, ipEscucha);
+
+	/*
+
+	memset(&kernelsv,0,sizeof(kernelsv));
+
+	kernelsv.sin_family = AF_INET;
+	kernelsv.sin_port = htons(puertoEscucha);
+
+	if((socketkernel = socket(AF_INET,SOCK_STREAM,0))<0){
+		log_info(logger, "Error al crear socket.");
+		perror("Error al crear el socket.");
+		exit(EXIT_FAILURE);
+	}
+
+
+	log_info(logger, "Socket creado con exito.");
+
+
+
+	if(bind(socketkernel,(struct sockaddr *)&kernelsv, sizeof(kernelsv))<0){
+		log_info(logger, "Error al bindear el socket");
+		perror("Error al bindear socket.");
+		exit(EXIT_FAILURE);
+	}
+
+	*/
+
+	log_info(logger, "Socket bindeado con exito");
+
+
+	pthread_t hiloMemoria, hiloFileSystem, hiloCPU, hiloConsola;
+
+	pthread_create(&hiloMemoria, NULL, conexionMemoria, config);
+
+	pthread_create(&hiloFileSystem, NULL, conexionFileSystem, config);
+
+	pthread_create(&hiloCPU, NULL, conexionCPU, config);
+
+	pthread_join(hiloMemoria, NULL);
+	pthread_join(hiloFileSystem, NULL);
+	pthread_join(hiloCPU, NULL);
+
+	while(1){
+
+		if((socketconsola = listen(socketkernel,10))<0){
+				log_info(logger, "Error al escuchar desde el socket.");
+				perror("Error al escuchar desde el socket.");
+				exit(EXIT_FAILURE);
+		}
+
+		if((socketconsola = accept(socketkernel, (struct sockaddr*)&consolasock,sizeof(consolasock))<0)){
+			log_info(logger, "Error al aceptar desde el socket.");
+			exit(EXIT_FAILURE);
+		}
+
+		socketconsola = accept(socketkernel, (struct sockaddr*)&consolasock,sizeof(consolasock));
+
+		pthread_create(&hiloConsola, NULL, handlerConsola, socketconsola);
+
+		pthread_detach(hiloConsola);
+
+		log_info(logger, "Hilo consola detached.");
+
+		sleep(3);
+
+	};
+
+
+
+	log_destroy(logger);
+
+}
+
+void conexionMemoria(t_config* arg1){
+
+	log_info(logger, "Inicializado hilo de conexion con Memoria.");
+
+	char ipMemoria = config_get_string_value(arg1,"IP_MEMORIA");
+	char puertoMemoria = config_get_string_value(arg1, "PUERTO_MEMORIA");
+
+	int conexionMemoria;
+
+	conexionMemoria = inicializar_cliente(ipMemoria,puertoMemoria);
+
+
+}
+
+void conexionFileSystem(t_config* arg1){
+
+	log_info(logger, "Inicializado hilo de conexion con File System.");
+
+	char* ipFileSystem = config_get_string_value(arg1,"IP_FILESYSTEM");
+	int puertoFileSystem = config_get_int_value(arg1, "PUERTO_FILESYSTEM");
+
+}
+
+void conexionCPU(t_config* arg1){
+
+	log_info(logger, "Inicializado hilo de conexion con CPU.");
+
+	char* ipCPU = config_get_string_value(arg1,"IP_CPU");
+	int puertoCPU = config_get_int_value(arg1, "PUERTO_CPU");
+
+}
+
+void handlerConsola(int sockConsola){
+
+	log_info(logger, "Consola %d conectada", sockConsola);
+
+	pcb* pcb = crearPcb(sockConsola);
+
+	log_info(logger, "Se crea el proceso %d en NEW.", sockConsola);
+
+	config = config_create("cfg/config.cfg");
+
+	int gradoMultiProgramacion = config_get_int_value(config,"GRADO_MAX_MULTIPROGRAMACION");
+
+	log_info(logger, "El grado de multiprogram es %d.", gradoMultiProgramacion);
+
+
+	//Usar semaforos con el grado de multiprogramacion, ver eso
+	if(gradoMultiProgramacion>=procesosReady){
+		procesosReady++;
+		pcb->estado=READY;
+		//Enviar mensaje a memoria
+		//Recibir tabla de segmentos inicial
+		//Almacenarla en el pcb: pcb->tabla_segmentos=tabla_segmentos_inicial
+
+		char* algoritmo_planificacion = config_get_string_value(config,"ALGORITMO_PLANIFICACION");
+
+		if(algoritmo_planificacion=="FIFO"){
+			planificacionFIFO(pcb);
+		} else {
+			planificacionHRRN(pcb);
+		};
+	} else {
+
+	}
+
+
+
+
+
+}
+
+pcb* crearPcb(int socket){
+
+	pcb* pcb = malloc(sizeof(pcb));
+
+	pcb->pid = socket;
+	pcb->estado = NEW;
+
+	return pcb;
+
+}
+
+void planificacionFIFO(pcb* pcb){
+
+}
+
+void planificacionHRRN(pcb* pcb){
+
+}
+
+

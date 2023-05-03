@@ -1,0 +1,95 @@
+#include "kernel.h"
+
+t_log* logger;
+
+int main(){
+
+	logger = log_create("kernel.log", "Kernel-Log", 1, LOG_LEVEL_INFO);
+
+	t_config* config = config_create("cfg/config.cfg");
+
+	int puertoEscucha = config_get_int_value(config, "PUERTO_ESCUCHA");
+	int sockkernel;
+
+	struct sockaddr_in kernelsv;
+	memset(&kernelsv,0,sizeof(kernelsv));
+
+	kernelsv.sin_family = AF_INET;
+	kernelsv.sin_port = htons(puertoEscucha);
+
+	if((sockkernel = socket(AF_INET,SOCK_STREAM,0))<0){
+		log_info(logger, "Error al crear socket.");
+		perror("Error al crear el socket.");
+		exit(EXIT_FAILURE);
+	}
+
+	log_info(logger, "Socket creado con exito.");
+
+
+
+	if(bind(sockkernel,(struct sockaddr *)&kernelsv, sizeof(kernelsv))<0){
+		log_info(logger, "Error al bindear el socket");
+		perror("Error al bindear socket.");
+		exit(EXIT_FAILURE);
+	}
+
+	log_info(logger, "Socket bindeado con exito");
+
+
+	pthread_t hiloMemoria;
+	pthread_create(&hiloMemoria, NULL, conexionMemoria, config);
+
+	pthread_t hiloFileSystem;
+	pthread_create(&hiloFileSystem, NULL, conexionFileSystem, config);
+
+	pthread_t hiloCPU;
+	pthread_create(&hiloCPU, NULL, conexionCPU, config);
+
+	pthread_join(hiloMemoria, NULL);
+	pthread_join(hiloFileSystem, NULL);
+	pthread_join(hiloCPU, NULL);
+
+	if(listen(sockkernel,10)<0){
+			log_info(logger, "Error al escuchar desde el socket.");
+			perror("Se supero el máximo de conexiones entrantes.");
+			exit(EXIT_FAILURE);
+	}
+
+	log_info(logger, "Socket esperando conexiones...");
+
+
+
+	log_destroy(logger);
+
+}
+
+void conexionMemoria(t_config* arg1){
+
+	log_info(logger, "Inicializado hilo de conexion con Memoria.");
+
+	char* ipMemoria = config_get_string_value(arg1,"IP_MEMORIA");
+	int puertoMemoria = config_get_int_value(arg1, "PUERTO_MEMORIA");
+
+
+
+}
+
+void conexionFileSystem(t_config* arg1){
+
+	log_info(logger, "Inicializado hilo de conexion con File System.");
+
+	char* ipFileSystem = config_get_string_value(arg1,"IP_FILESYSTEM");
+	int puertoFileSystem = config_get_int_value(arg1, "PUERTO_FILESYSTEM");
+
+}
+
+void conexionCPU(t_config* arg1){
+
+	log_info(logger, "Inicializado hilo de conexion con CPU.");
+
+	char* ipCPU = config_get_string_value(arg1,"IP_CPU");
+	int puertoCPU = config_get_int_value(arg1, "PUERTO_CPU");
+
+}
+
+

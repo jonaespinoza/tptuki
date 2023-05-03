@@ -1,0 +1,39 @@
+/*
+ * consola.c
+ *
+ *  Created on: 11 abr. 2023
+ *      Author: utnso
+ */
+
+#include "consola.h"
+
+int main(int argc, char *argv[]){
+
+	int kernel_fd = socket(AF_INET, SOCK_STREAM, 0);
+
+	char *kernelip = "127.0.0.1";
+	int kernelpuerto = 8000;
+
+	struct sockaddr_in kernelsv;
+	memset(&kernelsv,0,sizeof(kernelsv));
+
+	kernelsv.sin_family = AF_INET;
+	kernelsv.sin_port =htons(kernelpuerto);
+
+	if (inet_pton(AF_INET, kernelip, &kernelsv.sin_addr)<=0){
+		perror("Error de conexion");
+		exit(EXIT_FAILURE);
+	}
+
+	int conectado=0;
+	while(!conectado){
+		if (connect(kernel_fd, (struct sockaddr *)&kernelsv, sizeof(kernelsv)) < 0){
+			perror("Error de conexion");
+			sleep(5);
+		} else {
+			conectado = 1;
+		}
+
+	}
+
+}

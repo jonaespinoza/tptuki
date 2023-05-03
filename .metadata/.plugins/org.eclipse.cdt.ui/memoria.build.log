@@ -1,0 +1,6 @@
+20:30:37 **** Incremental Build of configuration Debug for project Memoria ****
+make all 
+make: Nothing to be done for 'all'.
+
+20:30:37 Build Finished (took 244ms)
+

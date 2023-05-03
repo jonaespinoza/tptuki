@@ -1,0 +1,63 @@
+#include "kernel.h"
+
+int main(){
+
+	t_config* config = config_create("cfg/config.cfg");
+
+	int puertoEscucha = config_get_int_value(config, "PUERTO_ESCUCHA");
+	int sockkernel;
+
+	struct sockaddr_in kernelsv;
+	memset(&kernelsv,0,sizeof(kernelsv));
+
+	kernelsv.sin_family = AF_INET;
+	kernelsv.sin_port = htons(puertoEscucha);
+
+	if((sockkernel = socket(AF_INET,SOCK_STREAM,0))<0){
+		perror("Error al crear el socket");
+		exit(EXIT_FAILURE);
+	}
+
+	if(bind(sockkernel,(struct sockaddr *)&kernelsv, sizeof(kernelsv))<0){
+		perror("Error al bindear socket.");
+		exit(EXIT_FAILURE);
+	}
+
+
+
+
+	pthread_t hiloMemoria;
+	pthread_create(&hiloMemoria, NULL, conexionMemoria, config);
+
+	pthread_t hiloFileSystem;
+	pthread_create(&hiloFileSystem, NULL, conexionFileSystem, config);
+
+	pthread_t hiloCPU;
+	pthread_create(&hiloCPU, NULL, conexionCPU, config);
+
+}
+
+void conexionMemoria(t_config* arg1){
+
+	char* ipMemoria = config_get_string_value(arg1,"IP_MEMORIA");
+	int puertoMemoria = config_get_int_value(arg1, "PUERTO_MEMORIA");
+
+
+
+}
+
+void conexionFileSystem(t_config* arg1){
+
+	char* ipFileSystem = config_get_string_value(arg1,"IP_FILESYSTEM");
+	int puertoFileSystem = config_get_int_value(arg1, "PUERTO_FILESYSTEM");
+
+}
+
+void conexionCPU(t_config* arg1){
+
+	char* ipCPU = config_get_string_value(arg1,"IP_CPU");
+	int puertoCPU = config_get_int_value(arg1, "PUERTO_CPU");
+
+}
+
+

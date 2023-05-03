@@ -1,0 +1,22 @@
+20:26:04 **** Incremental Build of configuration Debug for project filesystem ****
+make all 
+Building file: ../src/filesystem.c
+Invoking: GCC C Compiler
+gcc -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/filesystem.d" -MT"src/filesystem.o" -o "src/filesystem.o" "../src/filesystem.c"
+../src/filesystem.c: In function ‘main’:
+../src/filesystem.c:11:5: warning: implicit declaration of function ‘handshakeServidor’ [-Wimplicit-function-declaration]
+     handshakeServidor(socket_servidor, P_FILESYSTEM);//chequear  _P
+     ^
+../src/filesystem.c:12:25: error: ‘atender_kernel’ undeclared (first use in this function)
+     crear_hilo_conexion(atender_kernel, socket_servidor);//?
+                         ^
+../src/filesystem.c:12:25: note: each undeclared identifier is reported only once for each function it appears in
+../src/filesystem.c: In function ‘inicializar_config’:
+../src/filesystem.c:32:35: warning: assignment makes integer from pointer without a cast [-Wint-conversion]
+     config->retardo_acceso_bloque = buscarEnConfig(raw, "RETARDO_ACCESO_BLOQUE");
+                                   ^
+src/subdir.mk:18: recipe for target 'src/filesystem.o' failed
+make: *** [src/filesystem.o] Error 1
+
+20:26:04 Build Finished (took 198ms)
+

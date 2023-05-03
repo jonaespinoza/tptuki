@@ -1,0 +1,38 @@
+20:18:50 **** Build of configuration Debug for project shared ****
+make all 
+Building file: ../src/cliente.c
+Invoking: GCC C Compiler
+gcc -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/cliente.d" -MT"src/cliente.o" -o "src/cliente.o" "../src/cliente.c"
+Finished building: ../src/cliente.c
+ 
+Building file: ../src/servidor.c
+Invoking: GCC C Compiler
+gcc -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/servidor.d" -MT"src/servidor.o" -o "src/servidor.o" "../src/servidor.c"
+Finished building: ../src/servidor.c
+ 
+Building file: ../src/shared.c
+Invoking: GCC C Compiler
+gcc -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/shared.d" -MT"src/shared.o" -o "src/shared.o" "../src/shared.c"
+../src/shared.c: In function ‘showList’:
+../src/shared.c:45:16: warning: format ‘%s’ expects argument of type ‘char *’, but argument 2 has type ‘void *’ [-Wformat=]
+         printf("%s", list_get(list, i));
+                ^
+../src/shared.c: In function ‘crear_hilo_conexion’:
+../src/shared.c:77:24: warning: passing argument 4 of ‘pthread_create’ makes pointer from integer without a cast [-Wint-conversion]
+                        socket_cliente);
+                        ^
+In file included from ../src/shared.h:15:0,
+                 from ../src/shared.c:1:
+/usr/include/pthread.h:233:12: note: expected ‘void * restrict’ but argument is of type ‘int’
+ extern int pthread_create (pthread_t *__restrict __newthread,
+            ^
+Finished building: ../src/shared.c
+ 
+Building target: libshared
+Invoking: GCC C Linker
+gcc -shared -o "libshared"  ./src/cliente.o ./src/servidor.o ./src/shared.o   
+Finished building target: libshared
+ 
+
+20:18:50 Build Finished (took 334ms)
+

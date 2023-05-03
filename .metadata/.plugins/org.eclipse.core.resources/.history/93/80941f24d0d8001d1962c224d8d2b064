@@ -1,0 +1,19 @@
+/*
+ * consola.h
+ *
+ *  Created on: 11 abr. 2023
+ *      Author: utnso
+ */
+
+#ifndef MAIN_H_
+#define MAIN_H_
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <commons/log.h>
+#include <commons/config.h>
+#include <commons/string.h>
+#include <commons/collections/list.h>
+
+
+#endif /* CONSOLA_H_ */

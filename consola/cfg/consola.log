@@ -1,0 +1,9 @@
+[ERROR] 20:23:49:670 CONSOLA/(4519:4519): Insuficientes parametros
+[ERROR] 20:30:55:771 CONSOLA/(4892:4892): Insuficientes parametros
+[ERROR] 20:34:13:927 CONSOLA/(4959:4959): Insuficientes parametros
+[ERROR] 20:54:06:483 CONSOLA/(5483:5483): Instruccion invalida: IP_KERNEL=127.0.0.1
+
+[ERROR] 20:54:06:484 CONSOLA/(5483:5483): Instruccion invalida: PUERTO_KERNEL=8000
+[ERROR] 20:56:41:774 CONSOLA/(5571:5571): Instruccion invalida: IP_KERNEL=127.0.0.1
+
+[ERROR] 20:56:41:774 CONSOLA/(5571:5571): Instruccion invalida: PUERTO_KERNEL=8000

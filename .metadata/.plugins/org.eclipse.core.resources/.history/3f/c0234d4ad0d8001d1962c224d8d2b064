@@ -1,0 +1,21 @@
+/*
+ * consola.c
+ *
+ *  Created on: 11 abr. 2023
+ *      Author: utnso
+ */
+
+#include "consola.h"
+
+int main(int argc, char *argv){
+
+	int kernel_fd = socket(AF_INET, SOCK_STREAM, 0);
+
+	char *ip;
+	int puerto;
+
+	struct sockddr_in kernelsv;
+	kernelsv.sin_family = IP
+
+
+}

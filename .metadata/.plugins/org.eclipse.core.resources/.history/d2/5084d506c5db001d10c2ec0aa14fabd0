@@ -1,0 +1,27 @@
+#include "kernel.h"
+
+int main(){
+
+	t_config* config = config_create("cfg/config.cfg");
+
+	pthread_t hiloMemoria;
+	pthread_create(&hiloMemoria, NULL, conexionMemoria, config);
+
+	pthread_t hiloFileSystem;
+	pthread_create(&hiloFileSystem, NULL, conexionFileSystem, config);
+
+}
+
+void conexionMemoria(t_config* arg1){
+
+	char* ipMemoria = config_get_string_value(arg1,"IP_MEMORIA");
+	int puertoMemoria = config_get_int_value(arg1, "PUERTO_MEMORIA");
+
+}
+
+void conexionFileSystem(t_config* arg1){
+
+	char* ipMemoria = config_get_string_value(arg1,"IP_FILESYSTEM");
+	int puertoMemoria = config_get_int_value(arg1, "PUERTO_FILESYSTEM");
+
+}

@@ -1,0 +1,30 @@
+/*
+ * kernel.h
+ *
+ *  Created on: 15 abr. 2023
+ *      Author: utnso
+ */
+
+#ifndef SRC_KERNEL_H_
+#define SRC_KERNEL_H_
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <commons/log.h>
+#include <commons/config.h>
+#include <commons/string.h>
+#include <commons/collections/list.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <pthread.h>
+
+struct PCB{
+	int pid;
+	t_list* instrucciones;
+	int program_counter;
+	//Estructura con valores de registro de CPU
+
+
+};
+
+#endif /* SRC_KERNEL_H_ */
